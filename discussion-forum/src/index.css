@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+h3 {
+  @apply text-purple-600 font-bold;
+}
+
+h1 {
+  @apply text-xl font-bold text-gray-800;
+}
+
+p {
+  @apply text-gray-500 text-sm text-justify py-2 font-thin;
+}
+
+hr {
+  @apply my-4;
+}
+
+--webkit-scrollbar {
+  width: 0.5rem;
+}
+
+::-webkit-scrollbar {
+  margin-top: 0px;
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  margin-top: 0px;
+  background: rgb(178, 166, 166);
+  opacity: 0.5;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-track {
+  margin-top: 30px;
+  background: #fff;
+}
