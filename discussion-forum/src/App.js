@@ -11,23 +11,18 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import React from "react";
 import Chat from "./pages/Chat";
+import Myanswers from "./pages/Myanswers";
+import Explore from "./pages/Explore";
+import Notfound from "./components/Notfound";
 
 const queryClient = new QueryClient();
 
-const images = [
-  "https://st2.depositphotos.com/1104517/11965/v/450/depositphotos_119659092-stock-illustration-male-avatar-profile-picture-vector.jpg",
-  "https://img.freepik.com/free-icon/man_318-233556.jpg",
-  "https://img.freepik.com/premium-vector/business-global-economy_24877-41082.jpg",
-  "https://i.pinimg.com/1200x/89/90/48/899048ab0cc455154006fdb9676964b3.jpg",
-  "https://static.vecteezy.com/system/resources/thumbnails/001/840/612/small/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-free-vector.jpg",
-];
-
 const Layout = () => {
   const [users, setUsers] = useState([]);
-  const random = Math.floor(Math.random() * 5);
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
+
     if (!user) {
       window.location.href = "/login";
     }
@@ -36,34 +31,37 @@ const Layout = () => {
       setUsers(res.data);
     };
     getUsers();
-    console.log(users);
   }, []);
 
   return (
     <QueryClientProvider client={queryClient} contextSharing={true}>
-      <div className="relative h-screen w-screenflex flex-col justify-center items-center ">
+      <div className="relative w-screen flex flex-col justify-center items-center overflow-x-hidden">
         <Navbar />
-        <div className="w-full h-full flex justify-center items-start px-12 pt-12 ">
+        <div className="w-full h-full flex justify-center items-start px-4 md:px-12 pt-12 ">
           <Sidebar />
-
           <Outlet />
-          <div className="right-section h-80 fixed z-10 top-24 right-28">
+          <div
+            className="right-section
+          hidden md:block
+          h-80 fixed z-10 top-24 right-28"
+          >
             <CreateButton />
             <div
-              className="mt-8 bg-white py-4 px-3 rounded-md shadow-md flex
+              className="mt-8  py-4 px-3 rounded-md flex
          flex-col items-start gap-5"
             >
               <h2 className="text-gray-600 font-bold text-start">Top Users</h2>
               {users.length > 0 &&
-                users.map((user, index) => {
+                users.slice(0, 5).map((user, index) => {
+                  console.log("user", user);
                   return (
                     <div className="flex items-center cursor-pointer">
                       <img
-                        src={images[index % 5]}
+                        src={user?.avatar}
                         alt="profile"
                         className="w-6 h-6 rounded-full mr-2"
                       />
-                      <h3 className="text-xs">{user.name}</h3>
+                      <h3 className="text-xs">{user.first_name}</h3>
                     </div>
                   );
                 })}
@@ -100,10 +98,34 @@ const router = createBrowserRouter([
         path: "/chat",
         element: <Chat />,
       },
+      {
+        path: "/explore",
+        element: <Explore />,
+      },
+      {
+        path: "/explore/:topic",
+        element: <Content />,
+      },
+      {
+        path: "/myqna",
+        element: <Myanswers />,
+      },
+      {
+        path: "*",
+        element: <Notfound />,
+      },
     ],
+  },
+  {
+    path: "*",
+    element: <Notfound />,
   },
 ]);
 
 export default function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <div className="h-screen ">
+      <RouterProvider router={router} />
+    </div>
+  );
 }

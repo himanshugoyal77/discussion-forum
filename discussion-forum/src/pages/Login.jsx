@@ -1,5 +1,6 @@
 import axios from "axios";
 import React from "react";
+import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
@@ -14,24 +15,30 @@ const Login = () => {
       password: password.value,
     };
 
-    const res = await axios.post("http://localhost:8080/login", user);
-    if (res.status === 200) {
-      localStorage.setItem("user", JSON.stringify(res.data));
-      navigate("/");
-      alert("User logged in successfully");
-    } else {
-      alert("User does not exist");
+    try {
+      const res = await axios.post("http://localhost:8080/login", user);
+      if (res.status === 200) {
+        localStorage.setItem("user", JSON.stringify(res.data));
+        navigate("/");
+        toast.success("Logged in successfully");
+      } else {
+        toast.error("User does not exist");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong, please try again!");
     }
   };
   return (
     <div className="">
+      <Toaster />
       <div className="bg-purple-500 flex flex-col items-center min-h-screen pt-6 sm:justify-center sm:pt-0 ">
         <div>
           <a href="/">
             <h3 className="text-4xl font-bold text-white">Login</h3>
           </a>
         </div>
-        <div className="w-full px-6 py-4 mt-6 overflow-hidden bg-white shadow-md sm:max-w-md sm:rounded-lg">
+        <div className="w-full bg-white px-6 py-4 mt-6 overflow-hidden  shadow-md sm:max-w-md sm:rounded-lg">
           <form onSubmit={handleSubmit}>
             <div className="mt-4">
               <label
@@ -45,7 +52,7 @@ const Login = () => {
                 name="email"
                 className="border border-purple-200 mt-2 w-full h-10 px-3 rounded 
                     outline-none 
-                      bg-white shadow-sm"
+                       shadow-sm"
               />
             </div>
             <div className="mt-4">
@@ -60,7 +67,7 @@ const Login = () => {
                 name="password"
                 className="border border-purple-200 mt-2 w-full h-10 px-3 rounded 
                     outline-none 
-                      bg-white shadow-sm"
+                       shadow-sm"
               />
             </div>
 
@@ -73,7 +80,7 @@ const Login = () => {
               </button>
               <a
                 className="text-sm text-gray-600 underline hover:text-gray-900 pt-1"
-                href="/login"
+                href="/register"
               >
                 Don't have an account? Register
               </a>

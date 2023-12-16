@@ -1,14 +1,35 @@
+import axios from "axios";
 import React from "react";
 
-const Arrowdown = () => {
+const Arrowdown = ({ id }) => {
+  const userId = JSON.parse(localStorage.getItem("user"))._id;
+
+  const handleClick = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post(`http://localhost:8080/downvote/${id}`, {
+        userId,
+      });
+      console.log(res.status);
+      if (res.status === 200) {
+        alert("downvoted successfully");
+      } else {
+        alert("You have already downvoted");
+      }
+    } catch (err) {
+      console.log(err);
+      alert("You have already downvoted");
+    }
+  };
   return (
     <svg
+      onClick={handleClick}
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className="w-5 h-5 cursor-pointer"
+      className="w-4 h-4 md:w-5 md:h-5 cursor-pointer"
     >
       <path
         strokeLinecap="round"

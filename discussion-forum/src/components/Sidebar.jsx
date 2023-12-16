@@ -1,17 +1,21 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
   const navigate = useNavigate();
   const location = window.location.pathname;
-  console.log(location);
+  const open = useSelector((state) => state.sidebar.open);
   const active =
     "  bg-purple-100 text-purple-500 px-4 py-2 rounded-sm border-l-4 border-purple-700";
   return (
     <div
-      className="w-[15%] h-80 fixed left-28 z-10 top-24 list-none
-    text-gray-300 text-sm space-y-4 
-    "
+      className={`${
+        open ? "block" : "hidden"
+      } md:block w-[60%] md:w-[15%] h-full md:h-80 fixed left-0 md:left-28 z-10 top-14 md:top-24 list-none
+    text-gray-300 text-sm space-y-4 py-8 md:py-0
+    bg-white shadow-md md:shadow-none md:bg-transparent
+    `}
     >
       <li
         onClick={() => navigate("/")}
@@ -37,8 +41,9 @@ const Sidebar = () => {
         HOME
       </li>
       <li
+        onClick={() => navigate("/explore")}
         className={
-          "flex items-center gap-2 px-4 py-1 " +
+          "flex items-center gap-2 px-4 py-1 cursor-pointer " +
           (location === "/explore" ? active : "")
         }
       >
@@ -59,7 +64,10 @@ const Sidebar = () => {
         EXPLORE TOPICS
       </li>
       <li
-        onClick={() => navigate("/chat")}
+        onClick={() => {
+          navigate("/chat");
+          window.location.reload();
+        }}
         className={
           "flex items-center gap-2 px-4 py-1 cursor-pointer " +
           (location === "/chat" ? active : "")
@@ -87,9 +95,9 @@ const Sidebar = () => {
         CHAT
       </li>
       <li
-        onClick={() => navigate("/chat")}
+        onClick={() => navigate("/myqna")}
         className={
-          "flex items-center gap-2 px-4 py-1 " +
+          "flex items-center gap-2 px-4 py-1 cursor-pointer " +
           (location === "/myqna" ? active : "")
         }
       >
@@ -107,7 +115,7 @@ const Sidebar = () => {
             d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.076-4.076a1.526 1.526 0 011.037-.443 48.282 48.282 0 005.68-.494c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"
           />
         </svg>
-        MY ANSWERS
+        MY QNA
       </li>
     </div>
   );
