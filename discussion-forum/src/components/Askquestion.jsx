@@ -3,6 +3,8 @@ import Add from "../icons/Add";
 import Share from "../icons/Share";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
+import { duration } from "moment";
 
 const Askquestion = () => {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -25,16 +27,19 @@ const Askquestion = () => {
       question
     );
     if (res.status === 201) {
-      naviate("/");
-      alert("Question added successfully");
+      toast.success("Question added successfully", (duration = 2000));
+      setTimeout(() => {
+        naviate("/");
+      }, 2000);
     }
   };
 
   return (
     <div className="h-full w-[50%]">
+      <Toaster />
       <div
         className="mx-12 flex flex-col items-center 
-      gap-4 mb-12 border p-4 pb-6 rounded-md bg-purple-300"
+      gap-4 mb-12 border p-4 pb-6 rounded-md bg-purple-300 mt-12"
       >
         <h1
           className="text-2xl font-bold text-center
@@ -44,13 +49,13 @@ const Askquestion = () => {
           Ask a Question
         </h1>
 
-        <form onSubmit={handleSubmit} className="form w-full">
+        <form onSubmit={handleSubmit} className="form w-full ">
           <div className="title">
             <label className="text-gray-800 text-start ">Question Title</label>
             <input
               name="title"
               className="mt-2 w-full h-10 px-3 rounded outline-none border-none
-               bg-white shadow-sm"
+                shadow-sm"
               type="text"
             />
           </div>
@@ -60,7 +65,7 @@ const Askquestion = () => {
             </label>
             <textarea
               name="description"
-              className="mt-2 w-full h-24 px-3 py-2 rounded outline-none border-none bg-white shadow-sm"
+              className="mt-2 w-full h-24 px-3 py-2 rounded outline-none border-none  shadow-sm"
               type="text"
             />
           </div>
@@ -68,7 +73,7 @@ const Askquestion = () => {
             <label className="text-gray-800 text-start ">Related Tags</label>
             <input
               name="tags"
-              className="mt-2 w-full h-10 px-3 rounded outline-none border-none bg-white shadow-sm"
+              className="mt-2 w-full h-10 px-3 rounded outline-none border-none  shadow-sm"
               type="text"
             />
           </div>

@@ -22,14 +22,14 @@ app.get("/", (req, res) => {
 
 // create a new user
 app.post("/signup", async (req, res) => {
-  const { name, password, email } = req.body;
+  const { name, password, email, profileImage } = req.body;
   console.log("req.body", req.body);
   try {
     const findUser = await User.findOne({ name });
     if (findUser) {
       return res.status(400).json({ message: "Username already exists" });
     }
-    const newUser = await User.create({ name, password, email });
+    const newUser = await User.create({ name, password, email, profileImage });
     return res.status(201).json({ message: "User created successfully" });
   } catch (error) {
     res.status(500).json({ message: "Server Error" });
@@ -118,7 +118,7 @@ app.post("/upvote/:id", async (req, res) => {
       const downvote = await findQuestion.updateOne({
         $pull: { downvote: userId },
       });
-      res.status(200).json({ message: "Response updated successfully" });
+      return res.status(200).json({ message: "Response updated successfully" });
     }
 
     const upvote = await findQuestion.updateOne({
@@ -143,7 +143,7 @@ app.post("/downvote/:id", async (req, res) => {
       const upvote = await findQuestion.updateOne({
         $pull: { upvote: userId },
       });
-      res.status(200).json({ message: "Response updated successfully" });
+      return res.status(200).json({ message: "Response updated successfully" });
     }
 
     const downvote = await findQuestion.updateOne({
@@ -164,6 +164,52 @@ app.get("/allusers", async (req, res) => {
   }
 });
 
+app.get("/my-questions/:id", async (req, res) => {
+  const { id: userId } = req.params;
+  try {
+    const replies = await Question.find({ author: userId })
+      .populate("replies")
+      .populate({
+        path: "replies",
+        populate: {
+          path: "author",
+          model: "User",
+        },
+      })
+      .populate("author")
+      .sort({
+        createdAt: -1,
+      });
+    return res.status(200).json(replies);
+  } catch (error) {
+    res.status(500).json({ message: "Server Error" });
+  }
+});
+
+app.get("/find/:topic", async (req, res) => {
+  const { topic } = req.params;
+  try {
+    const questions = await Question.find({
+      tags: {
+        $in: [topic],
+      },
+    })
+      .populate("replies")
+      .populate({
+        path: "replies",
+        populate: {
+          path: "author",
+          model: "User",
+        },
+      })
+      .populate("author")
+      .sort({ createdAt: -1 });
+    return res.status(200).json(questions);
+  } catch (error) {
+    res.status(500).json({ message: "Server Error" });
+  }
+});
+
 const deleteUser = async () => {
   try {
     const deleteQuestion = await Reply.deleteMany({});
@@ -175,7 +221,7 @@ const deleteUser = async () => {
 
 const server = app.listen(8080, () => {
   connectDB();
-  //deleteUser();
+  //sdeleteUser();
   console.log("Server running on port 8080");
 });
 
@@ -189,14 +235,30 @@ const io = new Server(server, {
 });
 
 io.on("connection", (socket) => {
-  console.log("connected");
+  console.log("socket connected");
+  const users = [];
 
-  socket.on("join-room", ({ room }) => {
-    console.log("room", room);
+  for (let [id, socket] of io.of("/").sockets) {
+    if (socket.handshake.auth._id) users.push(socket.handshake.auth);
+  }
+  io.emit("user-connected", users);
+
+  socket.on("join-room", ({ room, user }) => {
+    users[user._id] = user;
     socket.join(room);
+
+    // socket.broadcast.to(room).emit("user-connected", users);
   });
+
   socket.on("send-message", ({ message, room, user }) => {
-    console.log("message", message);
+    console.log("message", message, room, user);
     io.to(room).emit("receive-message", { message, user, room });
+  });
+
+  socket.on("disconnect", () => {
+    console.log("disconnected");
+    users.splice(users.indexOf(socket.userId), 1);
+    console.log("disconnected users", users);
+    io.emit("user-disconnected", users);
   });
 });

@@ -6,6 +6,11 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    profileImage: {
+      type: String,
+      default:
+        "https://img.freepik.com/premium-vector/business-global-economy_24877-41082.jpg",
+    },
     email: {
       type: String,
       required: true,
