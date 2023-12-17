@@ -55,8 +55,11 @@ const Explore = () => {
     window.location.href = `/explore/${topic.toLowerCase()}`;
   };
   return (
-    <div className="w-full text-center h-screen mt-8">
-      <h1 className="text-xl text-gray-800"> Select A Topic To Explore</h1>
+    <div className="w-full md:w-[50%] text-center h-screen mt-8">
+      <h1 className="text-xl text-gray-800 dark:text-white">
+        {" "}
+        Select A Topic To Explore
+      </h1>
       <div className="grid grid-cols-3 md:grid-cols-4 mt-3 items-center">
         {discussionTopics.map((topic, index) => (
           <div

@@ -30,20 +30,31 @@ const Login = () => {
     }
   };
   return (
-    <div className="">
+    <div className="h-screen w-screen dark:bg-[#32353F]">
       <Toaster />
-      <div className="bg-purple-500 flex flex-col items-center min-h-screen pt-6 sm:justify-center sm:pt-0 ">
-        <div>
+      <div
+        className=" flex flex-col items-center  min-h-screen pt-6 
+      sm:justify-center sm:pt-0 "
+      >
+        <div className="mt-12 md:mt-0">
           <a href="/">
-            <h3 className="text-4xl font-bold text-white">Login</h3>
+            <h3 className="text-4xl font-bold text-purple-950 dark:text-white">
+              Login
+            </h3>
           </a>
         </div>
-        <div className="w-full bg-white px-6 py-4 mt-6 overflow-hidden  shadow-md sm:max-w-md sm:rounded-lg">
+        <div
+          className="w-[90%] md:w-full bg-purple-300
+          dark:bg-[#1E212A] border
+          px-6 py-4 mt-6 overflow-hidden
+         shadow-md sm:max-w-md rounded-lg"
+        >
           <form onSubmit={handleSubmit}>
             <div className="mt-4">
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-gray-700 undefined"
+                className="block text-sm font-medium 
+                text-purple-950 dark:text-white"
               >
                 Email
               </label>
@@ -58,7 +69,8 @@ const Login = () => {
             <div className="mt-4">
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-700 undefined"
+                className="block text-sm 
+                font-medium text-purple-950 dark:text-white"
               >
                 Password
               </label>
@@ -74,12 +86,16 @@ const Login = () => {
             <div className="mt-8 flex flex-col items-center justify-center ">
               <button
                 type="submit"
-                className="inline-flex items-center px-4 py-2  text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-gray-900 border border-transparent rounded-md active:bg-gray-900 false"
+                className="inline-flex items-center px-4 py-2 text-xs font-semibold 
+                tracking-widest 
+                text-white uppercase transition duration-150 ease-in-out 
+                bg-purple-950 border border-transparent rounded-md 
+                active:bg-gray-900 false"
               >
                 Register
               </button>
               <a
-                className="text-sm text-gray-600 underline hover:text-gray-900 pt-1"
+                className="text-sm text-gray-100 underline hover:text-gray-900 pt-2"
                 href="/register"
               >
                 Don't have an account? Register

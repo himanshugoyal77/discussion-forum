@@ -35,15 +35,16 @@ const Askquestion = () => {
   };
 
   return (
-    <div className="h-full w-[50%]">
+    <div className="h-full md:w-[50%]">
       <Toaster />
       <div
-        className="mx-12 flex flex-col items-center 
-      gap-4 mb-12 border p-4 pb-6 rounded-md bg-purple-300 mt-12"
+        className="md:mx-12 flex flex-col items-center 
+      gap-4 mb-12 border p-4 pb-6 rounded-md bg-purple-300 
+      dark:bg-[#1E212A]  mt-12"
       >
         <h1
           className="text-2xl font-bold text-center
-        text-purple-600
+        text-purple-600 
         "
         >
           Ask a Question
@@ -51,7 +52,9 @@ const Askquestion = () => {
 
         <form onSubmit={handleSubmit} className="form w-full ">
           <div className="title">
-            <label className="text-gray-800 text-start ">Question Title</label>
+            <label className="text-gray-800 text-start dark:text-white">
+              Question Title
+            </label>
             <input
               name="title"
               className="mt-2 w-full h-10 px-3 rounded outline-none border-none
@@ -60,7 +63,7 @@ const Askquestion = () => {
             />
           </div>
           <div className="desc mt-3">
-            <label className="text-gray-800 text-start ">
+            <label className="text-gray-800 text-start dark:text-white">
               Question Description
             </label>
             <textarea
@@ -70,9 +73,12 @@ const Askquestion = () => {
             />
           </div>
           <div className="tages mt-3">
-            <label className="text-gray-800 text-start ">Related Tags</label>
+            <label className="text-gray-800 text-start dark:text-white">
+              Related Tags
+            </label>
             <input
               name="tags"
+              placeholder="Enter tags seperated by comma"
               className="mt-2 w-full h-10 px-3 rounded outline-none border-none  shadow-sm"
               type="text"
             />

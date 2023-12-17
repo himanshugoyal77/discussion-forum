@@ -1,26 +1,29 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { toggle } from "../context/sidebarSlice";
 
 const Sidebar = () => {
   const navigate = useNavigate();
   const location = window.location.pathname;
   const open = useSelector((state) => state.sidebar.open);
+  const dispatch = useDispatch();
   const active =
     "  bg-purple-100 text-purple-500 px-4 py-2 rounded-sm border-l-4 border-purple-700";
   return (
     <div
       className={`${
         open ? "block" : "hidden"
-      } md:block w-[60%] md:w-[15%] h-full md:h-80 fixed left-0 md:left-28 z-10 top-14 md:top-24 list-none
+      } md:block  w-[60%] md:w-[15%] h-full md:h-80 fixed left-0 md:left-28 z-10 top-14 md:top-24 list-none
     text-gray-300 text-sm space-y-4 py-8 md:py-0
-    bg-white shadow-md md:shadow-none md:bg-transparent
+     bg-white  dark:bg-[#1E212A] shadow-md 
+     md:shadow-none md:bg-transparent
     `}
     >
       <li
         onClick={() => navigate("/")}
         className={
-          "flex items-center gap-2 px-4 py-1 hover:cursor-pointer " +
+          "flex items-center gap-2 mx-2 md:mx-0 px-4 py-1 hover:cursor-pointer " +
           (location === "/" ? active : " ")
         }
       >
@@ -43,7 +46,7 @@ const Sidebar = () => {
       <li
         onClick={() => navigate("/explore")}
         className={
-          "flex items-center gap-2 px-4 py-1 cursor-pointer " +
+          "flex items-center gap-2 mx-2 md:mx-0 px-4 py-1 cursor-pointer " +
           (location === "/explore" ? active : "")
         }
       >
@@ -69,7 +72,7 @@ const Sidebar = () => {
           window.location.reload();
         }}
         className={
-          "flex items-center gap-2 px-4 py-1 cursor-pointer " +
+          "flex items-center gap-2 mx-2 md:mx-0 px-4 py-1 cursor-pointer " +
           (location === "/chat" ? active : "")
         }
       >
@@ -97,7 +100,7 @@ const Sidebar = () => {
       <li
         onClick={() => navigate("/myqna")}
         className={
-          "flex items-center gap-2 px-4 py-1 cursor-pointer " +
+          "flex items-center gap-2 mx-2 md:mx-0 px-4 py-1 cursor-pointer " +
           (location === "/myqna" ? active : "")
         }
       >
@@ -116,6 +119,32 @@ const Sidebar = () => {
           />
         </svg>
         MY QNA
+      </li>
+
+      <li
+        onClick={() => {
+          navigate("/ask");
+          dispatch(toggle());
+        }}
+        className="md:hidden flex items-center justify-center gap-2 px-4 py-2 cursor-pointer 
+          bg-purple-600 mx-4 rounded-md text-white
+          "
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="w-4 h-4"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z"
+          />
+        </svg>
+        Ask a Question
       </li>
     </div>
   );

@@ -1,7 +1,7 @@
 import express from "express";
 import connectDB from "./connect.js";
-import User from "./model/User.js";
-import Question from "./model/Question.js";
+import User from "./model/user.js";
+import Question from "./model/question.js";
 import Reply from "./model/reply.js";
 import cors from "cors";
 import { Server } from "socket.io";
@@ -94,7 +94,7 @@ app.get("/questions", async (req, res) => {
         path: "replies",
         populate: {
           path: "author",
-          model: "User",
+          model: "DiscussionUser",
         },
       })
       .populate("author")
@@ -173,7 +173,7 @@ app.get("/my-questions/:id", async (req, res) => {
         path: "replies",
         populate: {
           path: "author",
-          model: "User",
+          model: "DiscussionUser",
         },
       })
       .populate("author")
@@ -199,7 +199,7 @@ app.get("/find/:topic", async (req, res) => {
         path: "replies",
         populate: {
           path: "author",
-          model: "User",
+          model: "DiscussionUser",
         },
       })
       .populate("author")
@@ -212,8 +212,8 @@ app.get("/find/:topic", async (req, res) => {
 
 const deleteUser = async () => {
   try {
-    const deleteQuestion = await Reply.deleteMany({});
-    res.status(200).json({ message: "Deleted successfully" });
+    const deleteQuestion = await Question.deleteMany({});
+    const deleteReply = await Reply.deleteMany({});
   } catch (error) {
     res.status(500).json({ message: "Server Error" });
   }
@@ -221,7 +221,7 @@ const deleteUser = async () => {
 
 const server = app.listen(8080, () => {
   connectDB();
-  //sdeleteUser();
+  //deleteUser();
   console.log("Server running on port 8080");
 });
 

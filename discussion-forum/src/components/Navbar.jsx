@@ -16,8 +16,8 @@ const Navbar = () => {
   const navigate = useNavigate();
   return (
     <div
-      className="fixed bg-white
-     top-0 left-0 right-0 z-10 h-14 border-b-2 shadow-md  flex items-center justify-between
+      className="fixed bg-white dark:bg-[#1E212A]
+     top-0 left-0 right-0 z-10 h-14  shadow-md  flex items-center justify-between
      px-4
      md:px-20"
     >
@@ -60,7 +60,7 @@ const Navbar = () => {
         </svg>
 
         <div
-          className="cursor-pointer text-sm md:text-base"
+          className="cursor-pointer text-sm md:text-base dark:text-white"
           onClick={() => {
             localStorage.removeItem("user");
             navigate("/login");
@@ -72,7 +72,7 @@ const Navbar = () => {
         <img
           //onClick={() => navigate("/login")}
           src={
-            user?.avatar ||
+            user?.profileImage ||
             "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFY677t7F_8Epm50xo5OfqI882l5OBOPKRDxDWeGo7OQ&s"
           }
           alt="profile"

@@ -97,13 +97,13 @@ const Chat = () => {
   };
 
   return (
-    <div className="overflow-y-hidden h-screen w-full md:w-[60%] flex flex-col items-center gap-4 my-8">
+    <div className="overflow-y-hidden h-screen w-full md:w-[60%] flex  flex-col items-center gap-4 my-8">
       <div
         className="w-full md:w-[80%]
       text-sm md:text-base
-      flex justify-between items-center"
+      flex justify-between items-center dark:text-white"
       >
-        <h1 className="flex gap-4 text-sm md:text-base">
+        <h1 className="flex gap-4 text-sm md:text-base text-inherit">
           Online Users
           <span className="text-purple-600 text-sm flex gap-2">
             {" "}
@@ -118,7 +118,7 @@ const Chat = () => {
             })}
           </span>
         </h1>
-        <h1 className=" text-sm md:text-base">
+        <h1 className=" text-sm md:text-base text-inherit">
           {" "}
           {onlineUsers.length ? onlineUsers.length : 0}
         </h1>
@@ -151,7 +151,7 @@ const Chat = () => {
                         <span className="text-xs text-gray-500">
                           {msg.user._id === user?._id
                             ? "(You) "
-                            : msg.user.name}
+                            : msg.user.name + " "}
                           {moment(msg.createdAt).fromNow()}
                         </span>
                       </div>
@@ -162,7 +162,7 @@ const Chat = () => {
           })}
       </div>
       <div
-        className="w-full md:w-[80%] bg-purple-600 flex 
+        className="w-full md:w-[80%] bg-purple-600 dark:bg-slate-900 flex 
         items-center gap-2
         px-2 md:px-5 py-1 md:py-2 rounded-lg shadow-md  "
       >
