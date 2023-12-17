@@ -14,7 +14,9 @@ const Myanswers = () => {
 
   const { isLoading, data } = useQuery("getMyQuestions", () =>
     newRequests
-      .get(`http://localhost:8080/my-questions/${id}`)
+      .get(
+        `https://discussion-forum-production.up.railway.app/my-questions/${id}`
+      )
       .then((res) => res.data)
   );
 

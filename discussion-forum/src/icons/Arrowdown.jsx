@@ -7,9 +7,12 @@ const Arrowdown = ({ id }) => {
   const handleClick = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`http://localhost:8080/downvote/${id}`, {
-        userId,
-      });
+      const res = await axios.post(
+        `https://discussion-forum-production.up.railway.app/downvote/${id}`,
+        {
+          userId,
+        }
+      );
       console.log(res.status);
       if (res.status === 200) {
         alert("downvoted successfully");

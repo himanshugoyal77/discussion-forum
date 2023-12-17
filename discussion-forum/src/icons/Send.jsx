@@ -13,10 +13,13 @@ const Send = ({ answer, questionId, setAnswer }) => {
   const mutation = useMutation({
     mutationKey: ["new-answer"],
     mutationFn: (id) => {
-      return newRequests.post(`http://localhost:8080/answer/${id}`, {
-        answer,
-        userId: JSON.parse(localStorage.getItem("user"))._id,
-      });
+      return newRequests.post(
+        `https://discussion-forum-production.up.railway.app/answer/${id}`,
+        {
+          answer,
+          userId: JSON.parse(localStorage.getItem("user"))._id,
+        }
+      );
     },
     onSuccess: () => {
       queryClient.invalidateQueries(["getAllQuestions"]);

@@ -30,7 +30,10 @@ const Register = () => {
     };
 
     try {
-      const res = await axios.post("http://localhost:8080/signup", user);
+      const res = await axios.post(
+        "https://discussion-forum-production.up.railway.app/signup",
+        user
+      );
       if (res.status === 201) {
         toast.success("User created successfully");
         setTimeout(() => {

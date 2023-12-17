@@ -23,7 +23,7 @@ const Askquestion = () => {
     console.log(question);
 
     const res = await axios.post(
-      "http://localhost:8080/ask-question",
+      "https://discussion-forum-production.up.railway.app/ask-question",
       question
     );
     if (res.status === 201) {

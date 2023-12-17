@@ -19,7 +19,7 @@ import { io } from "socket.io-client";
 import { addUsers } from "./context/onlineSlice";
 const queryClient = new QueryClient();
 
-export const socket = io("http://localhost:8080", {
+export const socket = io("https://discussion-forum-production.up.railway.app", {
   withCredentials: true,
   secure: true,
 });
@@ -52,7 +52,9 @@ const Layout = () => {
     });
 
     const getUsers = async () => {
-      const res = await axios.get("http://localhost:8080/allusers");
+      const res = await axios.get(
+        "https://discussion-forum-production.up.railway.app/allusers"
+      );
       setUsers(res.data);
     };
     getUsers();

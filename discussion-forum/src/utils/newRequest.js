@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const newRequests = axios.create({
-  baseURL: "http://localhost:8800/api/",
+  baseURL: "https://discussion-forum-production.up.railway.app/api/",
   withCredentials: true,
 });
 
