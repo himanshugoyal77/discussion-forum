@@ -166,7 +166,11 @@ const Register = () => {
             <div className="flex flex-col items-center justify-center mt-4">
               <button
                 onClick={handleSubmit}
-                className="inline-flex items-center px-4 py-2  text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-gray-900 border border-transparent rounded-md active:bg-gray-900 false"
+                className="inline-flex items-center px-4 py-2 text-xs font-semibold 
+                tracking-widest 
+                text-white uppercase transition duration-150 ease-in-out 
+                bg-purple-950 border border-transparent rounded-md 
+                active:bg-gray-900 false"
               >
                 Register
               </button>

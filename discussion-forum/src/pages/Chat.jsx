@@ -5,11 +5,8 @@ import Send from "../icons/Send";
 import { useNavigate } from "react-router-dom";
 import _, { set } from "lodash";
 import moment from "moment";
-
-const socket = io("http://localhost:8080", {
-  withCredentials: true,
-  secure: true,
-});
+import { socket } from "../App";
+import { useSelector } from "react-redux";
 
 const discussionTopics = [
   "technology",
@@ -27,7 +24,6 @@ const discussionTopics = [
 ];
 
 const Chat = () => {
-  const navigate = useNavigate();
   const [message, setMessage] = React.useState("");
   const [messages, setMessages] = React.useState({
     technology: [],
@@ -40,26 +36,14 @@ const Chat = () => {
     Political: [],
     Sports: [],
   });
+
   const [user, setUser] = React.useState("");
   const [room, setRoom] = React.useState("technology");
-  const [onlineUsers, setOnlineUsers] = React.useState([]);
+  const onlineUsers = useSelector((state) => state.online.onlineUsers);
 
   useEffect(() => {
-    if (!localStorage.getItem("user")) {
-      navigate("/login");
-      return;
-    }
-
     setUser(JSON.parse(localStorage.getItem("user")));
     socket.connect();
-    socket.auth = JSON.parse(localStorage?.getItem("user"));
-
-    socket.on("user-connected", (users) => {
-      const userWithoutDuplicates = _.uniqBy(users, "_id");
-      console.log("userWithoutDuplicates", userWithoutDuplicates);
-      setOnlineUsers(userWithoutDuplicates);
-    });
-
     socket.emit("join-room", {
       room: room,
       user: JSON.parse(localStorage.getItem("user")),
@@ -74,20 +58,11 @@ const Chat = () => {
           [room]: [...prev[room], { message, user }],
         };
       });
+      console.log("messages", messages);
     });
-
-    socket.on("user-disconnected", (users) => {
-      console.log("disconnected users", users);
-      setOnlineUsers(users);
-    });
-
-    return () => {
-      socket.off();
-    };
-  }, [socket, message]);
+  }, [socket]);
 
   const handleClick = () => {
-    console.log("cxlk,message");
     socket.emit("send-message", {
       message: message,
       room: room,
@@ -97,7 +72,10 @@ const Chat = () => {
   };
 
   return (
-    <div className="overflow-y-hidden h-screen w-full md:w-[60%] flex  flex-col items-center gap-4 my-8">
+    <div
+      className="h-full overflow-y-hidden w-full md:w-[60%] flex  
+    flex-col items-center gap-4 mt-8"
+    >
       <div
         className="w-full md:w-[80%]
       text-sm md:text-base
@@ -123,10 +101,10 @@ const Chat = () => {
           {onlineUsers.length ? onlineUsers.length : 0}
         </h1>
       </div>
-
+      {/* // chat box */}
       <div
         className="w-full relative border-2 overflow-y-scroll 
-      py-3 px-2 md:p-4 rounded-md md:w-[80%] h-2/3 flex flex-col"
+      p-3 px-2 md:p-4 rounded-md md:w-[80%] h-[90%] md:h-[80%] flex flex-col"
       >
         {messages &&
           Object.entries(messages).map(([key, value]) => {
@@ -160,39 +138,43 @@ const Chat = () => {
               </div>
             );
           })}
-      </div>
-      <div
-        className="w-full md:w-[80%] bg-purple-600 dark:bg-slate-900 flex 
+
+        <div
+          className="w-full 
+      mt-auto 
+         bg-purple-600 dark:bg-slate-900 
+        flex 
         items-center gap-2
         px-2 md:px-5 py-1 md:py-2 rounded-lg shadow-md  "
-      >
-        <Write />
-        <div className="flex-grow w-full">
-          <input
-            onChange={(e) => setMessage(e.target.value)}
-            className="w-full h-8 border-none outline-none 
-          rounded-md py-1 px-2 "
-            type="text"
-            value={message}
-            placeholder="Write a comment"
-          />
-        </div>
-
-        <svg
-          onClick={handleClick}
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="w-5 h-5 text-white cursor-pointer hover:scale-110 hover:translate-x-1 hover:transform transition-all duration-300"
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"
-          />
-        </svg>
+          <Write />
+          <div className="flex-grow w-full">
+            <input
+              onChange={(e) => setMessage(e.target.value)}
+              className="w-full h-8 border-none outline-none 
+          rounded-md py-1 px-2 "
+              type="text"
+              value={message}
+              placeholder="Write a comment"
+            />
+          </div>
+
+          <svg
+            onClick={handleClick}
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-5 h-5 text-white cursor-pointer hover:scale-110 hover:translate-x-1 hover:transform transition-all duration-300"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"
+            />
+          </svg>
+        </div>
       </div>
     </div>
   );

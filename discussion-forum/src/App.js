@@ -14,24 +14,49 @@ import Chat from "./pages/Chat";
 import Myanswers from "./pages/Myanswers";
 import Explore from "./pages/Explore";
 import Notfound from "./components/Notfound";
-
+import { useDispatch, useSelector } from "react-redux";
+import { io } from "socket.io-client";
+import { addUsers } from "./context/onlineSlice";
 const queryClient = new QueryClient();
+
+export const socket = io("http://localhost:8080", {
+  withCredentials: true,
+  secure: true,
+});
 
 const Layout = () => {
   const [users, setUsers] = useState([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
-
     if (!user) {
       window.location.href = "/login";
     }
+
+    socket.connect();
+    socket.on("connect", () => {
+      console.log("socket connected");
+    });
+    socket.auth = user;
+
+    socket.on("user-connected", (users) => {
+      console.log("users", users);
+
+      dispatch(addUsers(users));
+    });
+
+    socket.on("user-disconnected", (users) => {
+      console.log("users", users);
+      dispatch(addUsers(users));
+    });
+
     const getUsers = async () => {
       const res = await axios.get("http://localhost:8080/allusers");
       setUsers(res.data);
     };
     getUsers();
-  }, []);
+  }, [socket]);
 
   return (
     <QueryClientProvider client={queryClient} contextSharing={true}>
@@ -129,8 +154,10 @@ const router = createBrowserRouter([
 ]);
 
 export default function App() {
+  const theme = useSelector((state) => state.theme.isDark);
+
   return (
-    <div className="h-screen ">
+    <div className={`h-screen ${theme ? "dark" : ""}`}>
       <RouterProvider router={router} />
     </div>
   );
