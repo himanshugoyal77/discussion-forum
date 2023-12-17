@@ -7,11 +7,12 @@ import cors from "cors";
 import { Server } from "socket.io";
 
 const app = express();
+const PORT = process.env.PORT || 8080;
 
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "https://h-forum.vercel.app",
     credentials: true,
   })
 );
@@ -219,16 +220,16 @@ const deleteUser = async () => {
   }
 };
 
-const server = app.listen(8080, () => {
+const server = app.listen(PORT, () => {
   connectDB();
   //deleteUser();
-  console.log("Server running on port 8080");
+  console.log(`Server running on port ${PORT}`);
 });
 
 const io = new Server(server, {
   secure: true,
   cors: {
-    origin: "http://localhost:3000",
+    origin: "https://h-forum.vercel.app",
     methods: ["GET", "POST"],
     credentials: true,
   },
