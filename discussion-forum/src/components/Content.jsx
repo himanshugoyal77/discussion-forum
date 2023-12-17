@@ -30,9 +30,6 @@ const Content = () => {
     }
   });
 
-  if (topic) {
-  }
-
   if (isLoading) return <Loading />;
 
   return (

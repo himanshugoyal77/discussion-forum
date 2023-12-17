@@ -16,7 +16,7 @@ const Sidebar = () => {
         open ? "block" : "hidden"
       } md:block  w-[60%] md:w-[15%] h-full md:h-80 fixed left-0 md:left-28 z-10 top-14 md:top-24 list-none
     text-gray-300 text-sm space-y-4 py-8 md:py-0
-     bg-white  dark:bg-[#1E212A] shadow-md 
+     bg-white dark:bg-[#1E212A] md:dark:bg-inherit shadow-md 
      md:shadow-none md:bg-transparent
     `}
     >
@@ -69,7 +69,6 @@ const Sidebar = () => {
       <li
         onClick={() => {
           navigate("/chat");
-          window.location.reload();
         }}
         className={
           "flex items-center gap-2 mx-2 md:mx-0 px-4 py-1 cursor-pointer " +

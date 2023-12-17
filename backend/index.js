@@ -239,8 +239,14 @@ io.on("connection", (socket) => {
   const users = [];
 
   for (let [id, socket] of io.of("/").sockets) {
-    if (socket.handshake.auth._id) users.push(socket.handshake.auth);
+    if (socket.handshake.auth._id)
+      users.push({
+        ...socket.handshake.auth,
+        socketId: socket.handshake.auth._id,
+      });
   }
+
+  console.log("users", users);
   io.emit("user-connected", users);
 
   socket.on("join-room", ({ room, user }) => {
@@ -257,8 +263,10 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     console.log("disconnected");
-    users.splice(users.indexOf(socket.userId), 1);
-    console.log("disconnected users", users);
-    io.emit("user-disconnected", users);
+    const delUser = users.filter(
+      (user) => user.socketId !== socket.handshake.auth._id
+    );
+    console.log("disconnected users", delUser);
+    io.emit("user-disconnected", delUser);
   });
 });

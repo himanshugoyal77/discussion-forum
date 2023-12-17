@@ -92,7 +92,7 @@ const Login = () => {
                 bg-purple-950 border border-transparent rounded-md 
                 active:bg-gray-900 false"
               >
-                Register
+                Login
               </button>
               <a
                 className="text-sm text-gray-100 underline hover:text-gray-900 pt-2"
