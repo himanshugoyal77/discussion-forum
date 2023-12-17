@@ -271,3 +271,5 @@ io.on("connection", (socket) => {
     io.emit("user-disconnected", delUser);
   });
 });
+
+export default app;
