@@ -21,11 +21,11 @@ const Content = () => {
   const { isLoading, data } = useQuery("getAllQuestions", () => {
     if (topic) {
       return newRequests
-        .get(`http://localhost:8080/find/${topic}`)
+        .get(`https://discussion-forum-production.up.railway.app/find/${topic}`)
         .then((res) => res.data);
     } else {
       return newRequests
-        .get("http://localhost:8080/questions")
+        .get("https://discussion-forum-production.up.railway.app/questions")
         .then((res) => res.data);
     }
   });

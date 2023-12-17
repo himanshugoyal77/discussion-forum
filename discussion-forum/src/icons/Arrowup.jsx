@@ -7,9 +7,12 @@ const Arrowup = ({ id }) => {
   const handleClick = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`http://localhost:8080/upvote/${id}`, {
-        userId,
-      });
+      const res = await axios.post(
+        `https://discussion-forum-production.up.railway.app/upvote/${id}`,
+        {
+          userId,
+        }
+      );
       console.log(res.status);
       if (res.status === 200) {
         alert("Upvoted successfully");
