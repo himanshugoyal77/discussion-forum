@@ -35,9 +35,15 @@ const Layout = () => {
 
   return (
     <QueryClientProvider client={queryClient} contextSharing={true}>
-      <div className="relative w-screen flex flex-col justify-center items-center overflow-x-hidden">
+      <div
+        className="relative w-screen flex flex-col justify-center items-center 
+      overflow-x-hidden bg-white dark:bg-[#32353F]"
+      >
         <Navbar />
-        <div className="w-full h-full flex justify-center items-start px-4 md:px-12 pt-12 ">
+        <div
+          className="w-full h-screen flex justify-center items-start px-4 
+        md:px-12 pt-12 dark:bg-[#32353F]"
+        >
           <Sidebar />
           <Outlet />
           <div
@@ -57,11 +63,11 @@ const Layout = () => {
                   return (
                     <div className="flex items-center cursor-pointer">
                       <img
-                        src={user?.avatar}
+                        src={user?.profileImage}
                         alt="profile"
                         className="w-6 h-6 rounded-full mr-2"
                       />
-                      <h3 className="text-xs">{user.first_name}</h3>
+                      <h3 className="text-xs">{user.name}</h3>
                     </div>
                   );
                 })}

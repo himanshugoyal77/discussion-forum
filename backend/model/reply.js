@@ -1,18 +1,21 @@
 import mongoose from "mongoose";
 
-const replySchema = mongoose.Schema({
+const replySchema = mongoose.Schema(
+  {
     reply: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     author: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: "User",
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "DiscussionUser",
     },
-}, {
+  },
+  {
     timestamps: true,
-});
+  }
+);
 
 const Reply = mongoose.model("Reply", replySchema);
 export default Reply;

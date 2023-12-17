@@ -3,14 +3,13 @@ import Comment from "../icons/Comment";
 import moment from "moment";
 
 const UserInfo = ({ openId, index, setOpenId, question, answer }) => {
-  console.log(answer?.author);
-  console.log(question?.author?.name);
+  const currentUser = JSON.parse(localStorage.getItem("user"));
   return (
-    <div className="w-full  flex items-cente justify-center">
-      <div className="posted-by flex items-center gap-2 md:gap-3">
+    <div className="w-full  flex items-cente justify-between">
+      <div className="w-[48%] md:max-w-screen-md posted-by flex items-center gap-2 md:gap-3">
         <img
           src={
-            answer?.author?.avatar ||
+            question?.author?.profileImage ||
             answer?.author?.profileImage ||
             "https://avatars.githubusercontent.com/u/56132780?v=4"
           }
@@ -18,9 +17,17 @@ const UserInfo = ({ openId, index, setOpenId, question, answer }) => {
           className="h-5 md:w-6 w-5 md:h-6 rounded-full"
         />
         <h2 className="text-gray-300 text-xs">
-          posted by{" "}
+          {answer ? "answered by\n" : "posted by "}{" "}
           <span className="text-purple-800 font-bold  md:text-sm">
-            {question?.author?.name || answer?.author?.name}
+            {question
+              ? question?.author?.name === currentUser?.name
+                ? question?.author?.name + " (You)"
+                : question?.author?.name
+              : answer
+              ? answer?.author?.name === currentUser?.name
+                ? answer?.author?.name + " (You)"
+                : answer?.author?.name
+              : ""}
           </span>
         </h2>
       </div>
@@ -33,7 +40,7 @@ const UserInfo = ({ openId, index, setOpenId, question, answer }) => {
       </div>
       {openId && (
         <div
-          className="comment  flex gap-2 ml-auto cursor-pointer"
+          className="comment flex gap-2 ml-auto cursor-pointer"
           onClick={() => {
             if (!openId.find((ele) => ele === index)) {
               console.log("hello");
