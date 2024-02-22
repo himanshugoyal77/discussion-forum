@@ -17,7 +17,7 @@ const Login = () => {
 
     try {
       const res = await axios.post(
-        "https://discussion-forum-production.up.railway.app/login",
+        `${process.env.REACT_APP_BACKEND_URL}/login`,
         user
       );
       if (res.status === 200) {
