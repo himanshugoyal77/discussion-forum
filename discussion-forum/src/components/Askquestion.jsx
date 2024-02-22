@@ -9,7 +9,7 @@ import { duration } from "moment";
 const Askquestion = () => {
   const user = JSON.parse(localStorage.getItem("user"));
   const naviate = useNavigate();
-  console.log(user._id);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { title, description, tags } = e.target;
@@ -19,11 +19,31 @@ const Askquestion = () => {
       tags: tags.value.split(","),
       userId: user._id,
     };
+    let spamScore;
+    let notSpamScore;
+    let label_0;
+    let label_1;
 
-    console.log(question);
+    const response = await query({ inputs: title.value });
+    console.log("response", response);
+    label_0 = response[0][0].label;
+    label_1 = response[0][0].label;
+
+    if (label_0 === "LABEL_0") {
+      toast.error("Your question seems to be a spam", (duration = 2000));
+      return;
+    }
+    // spamScore = Number(response[0][0].score);
+    // notSpamScore = Number(response[0][1].score);
+
+    // console.log(spamScore * 100);
+    // if (spamScore > notSpamScore) {
+    //   toast.error("Your question seems to be a spam", (duration = 2000));
+    //   return;
+    // }
 
     const res = await axios.post(
-      "https://discussion-forum-production.up.railway.app/ask-question",
+      `${process.env.REACT_APP_BACKEND_URL}/ask-question`,
       question
     );
     if (res.status === 201) {
@@ -33,6 +53,21 @@ const Askquestion = () => {
       }, 2000);
     }
   };
+
+  async function query(data) {
+    const response = await fetch(
+      "https://api-inference.huggingface.co/models/shahrukhx01/bert-mini-finetune-question-detection",
+      {
+        headers: {
+          Authorization: "Bearer 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",
+        },
+        method: "POST",
+        body: JSON.stringify(data),
+      }
+    );
+    const result = await response.json();
+    return result;
+  }
 
   return (
     <div className="h-full md:w-[50%]">

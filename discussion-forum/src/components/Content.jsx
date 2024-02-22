@@ -21,11 +21,11 @@ const Content = () => {
   const { isLoading, data } = useQuery("getAllQuestions", () => {
     if (topic) {
       return newRequests
-        .get(`https://discussion-forum-production.up.railway.app/find/${topic}`)
+        .get(`${process.env.REACT_APP_BACKEND_URL}/find/${topic}`)
         .then((res) => res.data);
     } else {
       return newRequests
-        .get("https://discussion-forum-production.up.railway.app/questions")
+        .get(`${process.env.REACT_APP_BACKEND_URL}/questions`)
         .then((res) => res.data);
     }
   });
@@ -40,7 +40,6 @@ const Content = () => {
       <Toaster />
       {data.length > 0 &&
         data.map((question, index) => {
-          console.log("question", question);
           return (
             <div
               key={index}

@@ -31,7 +31,7 @@ const Register = () => {
 
     try {
       const res = await axios.post(
-        "https://discussion-forum-production.up.railway.app/signup",
+        `${process.env.REACT_APP_BACKEND_URL}/signup`,
         user
       );
       if (res.status === 201) {

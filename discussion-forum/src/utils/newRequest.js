@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const newRequests = axios.create({
-  baseURL: "https://discussion-forum-production.up.railway.app/api/",
+  baseURL: `${process.env.REACT_APP_BACKEND_URL}/api/`,
   withCredentials: true,
 });
 

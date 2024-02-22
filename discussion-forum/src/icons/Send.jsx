@@ -14,7 +14,7 @@ const Send = ({ answer, questionId, setAnswer }) => {
     mutationKey: ["new-answer"],
     mutationFn: (id) => {
       return newRequests.post(
-        `https://discussion-forum-production.up.railway.app/answer/${id}`,
+        `${process.env.REACT_APP_BACKEND_URL}/answer/${id}`,
         {
           answer,
           userId: JSON.parse(localStorage.getItem("user"))._id,
