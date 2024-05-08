@@ -14,9 +14,7 @@ const Myanswers = () => {
 
   const { isLoading, data } = useQuery("getMyQuestions", () =>
     newRequests
-      .get(
-        `https://discussion-forum-production.up.railway.app/my-questions/${id}`
-      )
+      .get(`${process.env.REACT_APP_BACKEND_URL}/my-questions/${id}`)
       .then((res) => res.data)
   );
 

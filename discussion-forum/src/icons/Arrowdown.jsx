@@ -8,7 +8,7 @@ const Arrowdown = ({ id }) => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        `https://discussion-forum-production.up.railway.app/downvote/${id}`,
+        `${process.env.REACT_APP_BACKEND_URL}/downvote/${id}`,
         {
           userId,
         }

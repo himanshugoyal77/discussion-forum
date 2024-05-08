@@ -19,7 +19,7 @@ import { io } from "socket.io-client";
 import { addUsers } from "./context/onlineSlice";
 const queryClient = new QueryClient();
 
-export const socket = io("https://discussion-forum-production.up.railway.app", {
+export const socket = io(`${process.env.REACT_APP_BACKEND_URL}`, {
   withCredentials: true,
   secure: true,
 });
@@ -50,10 +50,10 @@ const Layout = () => {
       console.log("users", users);
       dispatch(addUsers(users));
     });
-
+    console.log("backend url", process.env.REACT_APP_BACKEND_URL);
     const getUsers = async () => {
       const res = await axios.get(
-        "https://discussion-forum-production.up.railway.app/allusers"
+        `${process.env.REACT_APP_BACKEND_URL}/allusers`
       );
       setUsers(res.data);
     };
